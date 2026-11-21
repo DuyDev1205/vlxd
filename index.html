@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://vlxd.103-116-52-58.sslip.io; connect-src 'self' https://vlxd.103-116-52-58.sslip.io; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="vlxd-build" content="202611210755-06129a1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>VLXD Thanh Duy</title>
+  <link rel="icon" type="image/svg+xml" href="icons/logo.svg">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#07110c">
+  <!-- iPhone: "Thêm vào MH chính" mở như app riêng (không thanh địa chỉ) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VLXD">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=202611210755-06129a1">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/" title="Về thư mục phiếu" aria-label="Về thư mục phiếu">
+        <img class="brand-mark" src="icons/logo.svg" alt="" aria-hidden="true">
+        <div>
+          <div class="brand-sub">Vật liệu xây dựng</div>
+          <div class="brand-name" data-shop="name">THANH DUY</div>
+        </div>
+      </a>
+      <nav class="tabs" role="tablist">
+        <a class="tab" data-tab="retail" href="#/ban-le" role="tab">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 3.5h2l1.7 9h9.3l1.5-6.5H5.4M8 16.5a1 1 0 1 0 0-.01M15 16.5a1 1 0 1 0 0-.01"/></svg>
+          <span>Bán lẻ</span>
+        </a>
+        <a class="tab" data-tab="files" href="#/" role="tab">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2.5h10v15l-2.5-1.5-2.5 1.5-2.5-1.5L5 17.5zM8 6.5h4M8 9.5h4M8 12.5h2"/></svg>
+          <span>Phiếu</span>
+        </a>
+        <a class="tab" data-tab="products" href="#/bang-gia" role="tab">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10.5 10.5 3H17v6.5L9.5 17zM13.5 6.5h.01"/></svg>
+          <span>Bảng giá</span>
+        </a>
+        <a class="tab" data-tab="customers" href="#/khach-hang" role="tab">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 17c0-3 2.5-5 5.5-5s5.5 2 5.5 5M13 3.3a3 3 0 0 1 0 5.4M15.5 12.4c1.5.7 2.5 2.4 2.5 4.6"/></svg>
+          <span>Khách hàng</span>
+        </a>
+      </nav>
+      <div class="drive" id="drive"></div>
+      <button class="icon-btn logout" id="btnAccount" type="button" title="Tài khoản · thiết bị đăng nhập" aria-label="Tài khoản và thiết bị đăng nhập" aria-haspopup="dialog">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3.5 17.5c.6-3.2 3.2-5 6.5-5s5.9 1.8 6.5 5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== THƯ MỤC PHIẾU ===================== -->
+  <main class="view" id="view-files" hidden>
+    <section class="files-head">
+      <div class="files-title">
+        <nav class="crumbs" id="crumbs" aria-label="Thư mục"></nav>
+        <h2 id="folderTitle">Tất cả phiếu</h2>
+        <p class="muted" id="folderMeta"></p>
+      </div>
+      <div class="head-actions">
+        <a class="btn ghost" id="btnToday" href="#/">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 5.5h13v11h-13zM3.5 8.5h13M7 3.5v3M13 3.5v3M9 12h2"/></svg>
+          Hôm nay
+        </a>
+        <button class="btn primary" id="btnNewPhieu" type="button" aria-haspopup="dialog">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+          Phiếu ngày khác
+        </button>
+      </div>
+    </section>
+    <div class="files-status" id="filesStatus" hidden></div>
+    <div id="filesBody"></div>
+  </main>
+
+  <!-- ===================== PHIẾU BÁN HÀNG ===================== -->
+  <main class="view" id="view-invoice" hidden>
+    <a class="back-link" id="backToFolder" href="#/">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 5l-5 5 5 5"/></svg>
+      <span id="backLabel">Tất cả phiếu</span>
+    </a>
+    <section class="toolbar card">
+      <div class="date-field">
+        <span class="label">Ngày phiếu</span>
+        <div class="date-nav">
+          <button class="nav-btn" type="button" id="prevPhieu" title="Phiếu trước" aria-label="Phiếu trước">
+            <svg viewBox="0 0 20 20"><path d="M12.5 5l-5 5 5 5"/></svg>
+          </button>
+          <button class="date-input" type="button" id="saleDate" aria-label="Chọn ngày phiếu" aria-haspopup="dialog">
+            <span id="saleDateText"></span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 5.5h13v11h-13zM3.5 8.5h13M7 3.5v3M13 3.5v3"/></svg>
+          </button>
+          <button class="nav-btn" type="button" id="nextPhieu" title="Phiếu sau" aria-label="Phiếu sau">
+            <svg viewBox="0 0 20 20"><path d="M7.5 5l5 5-5 5"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="period">
+        <span class="period-icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20"><path d="M3.5 5.5h13v11h-13zM3.5 8.5h13M7 3.5v3M13 3.5v3"/></svg>
+        </span>
+        <div class="period-text">
+          <div class="period-range" id="periodRange"></div>
+          <div class="period-path" id="periodPath" title="Vị trí file trên Google Drive"></div>
+        </div>
+      </div>
+      <div class="toolbar-actions">
+        <span class="sync" id="syncStatus"></span>
+        <div class="menu-wrap">
+          <button class="btn ghost" id="btnPrint" type="button" title="In phiếu – chọn khách để in (Ctrl+P)" aria-haspopup="menu" aria-expanded="false" aria-controls="printMenu">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 7.5V2.5h9v5M5.5 14.5h-2v-7h13v7h-2M5.5 11.5h9v6h-9z"/></svg>
+            <span>In phiếu</span>
+          </button>
+          <div class="menu" id="printMenu" role="menu" hidden>
+            <button type="button" role="menuitem" data-print="pick">Chọn khách để in…<kbd>Ctrl+P</kbd></button>
+            <button type="button" role="menuitem" data-print="current">Khách đang chọn</button>
+            <button type="button" role="menuitem" data-print="summary">Phiếu tổng kết tiền</button>
+          </div>
+        </div>
+        <a class="btn ghost" id="btnExport" href="#" download>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9m0 0-3.5-3.5M10 12l3.5-3.5M4 15h12" /></svg>
+          <span>Tải Excel</span>
+        </a>
+        <button class="btn primary" id="btnSync" title="Lưu lên Drive (Ctrl+S)">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 13.5a3.5 3.5 0 0 1 .4-7A4.5 4.5 0 0 1 14 7.6a3 3 0 0 1 .5 5.9M10 9.5v6m0-6-2.2 2.2M10 9.5l2.2 2.2"/></svg>
+          <span>Lưu lên Drive</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="banner" id="conflictBanner" hidden></div>
+    <div class="banner info" id="driveHint" hidden></div>
+
+    <div class="workspace">
+      <aside class="sidebar card">
+        <div class="sidebar-head">
+          <div class="sidebar-title">Khách trong phiếu</div>
+          <span class="count" id="customerCount"></span>
+        </div>
+        <form class="add-customer" id="addCustomerForm" autocomplete="off">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2.5 17c0-3 2.4-5 5.5-5 1 0 2 .2 2.8.7M15 11v6M12 14h6"/></svg>
+          <input id="newCustomer" placeholder="Thêm khách hàng…" title="Để trống rồi bấm Thêm = thêm khách chưa có tên" aria-label="Thêm khách vào phiếu" autocomplete="off"
+            role="combobox" aria-autocomplete="list" aria-controls="customerSuggest" aria-expanded="false">
+          <button class="btn primary sm" type="submit">Thêm</button>
+        </form>
+        <ul class="customer-list" id="customerList"></ul>
+        <div class="week-total">
+          <span id="weekTotalLabel">Tổng kết tiền phiếu này</span>
+          <strong id="weekTotal">0</strong>
+        </div>
+      </aside>
+
+      <section class="paper-wrap">
+        <div class="empty card" id="emptyState">
+          <span class="empty-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M14 6h14l8 8v28H14z M28 6v8h8 M19 24h12 M19 30h12 M19 36h8"/></svg>
+          </span>
+          <h3>Chưa chọn khách hàng</h3>
+          <p>Chọn một khách ở bên trái, hoặc gõ tên khách mới rồi bấm <b>Thêm</b> để bắt đầu nhập hàng.</p>
+        </div>
+
+        <article class="paper card" id="paper" hidden>
+          <header class="paper-head">
+            <div class="shop">
+              <div class="shop-name" data-shop="name"></div>
+              <div data-shop="address1"></div>
+              <div data-shop="address2"></div>
+              <div class="b" data-shop="phone"></div>
+            </div>
+            <div class="trade">
+              <div class="b" data-shop="tagline0"></div>
+              <div data-shop="tagline1"></div>
+              <div data-shop="tagline2"></div>
+              <div data-shop="tagline3"></div>
+            </div>
+            <img class="qr" alt="QR chuyển khoản">
+          </header>
+          <div class="bank" data-shop="bank"></div>
+
+          <div class="paper-title-row">
+            <h1 class="paper-title">HÓA ĐƠN BÁN LẺ</h1>
+            <label class="customer-line">
+              <span>Họ tên khách hàng</span>
+              <input class="customer-name" id="customerName" aria-label="Tên khách hàng" placeholder="Chưa có tên" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="next">
+            </label>
+          </div>
+
+          <div class="table-scroll">
+            <table class="lines">
+              <colgroup>
+                <col class="c-stt"><col class="c-date"><col class="c-name"><col class="c-unit">
+                <col class="c-qty"><col class="c-price"><col class="c-amount"><col class="c-act">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>STT</th><th>Ngày</th><th class="left">Tên hàng</th><th>ĐVT</th>
+                  <th>Số lượng</th><th class="right">Đơn giá</th><th class="right">Thành tiền</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="lineRows"></tbody>
+              <tbody>
+                <tr class="entry" id="entryRow">
+                  <td class="stt" id="eIndex"></td>
+                  <td class="c-date" id="eDateCell"></td>
+                  <td class="name"><input id="eItem" data-col="1" placeholder="Gõ: 10 bao xi măng" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" data-lpignore="true" title="Chữ nhỏ: m^3 → m³, H_2O → H₂O · hoặc bôi đen rồi Ctrl+. (trên) / Ctrl+, (dưới)" aria-label="Tên hàng" autocomplete="off"
+                    role="combobox" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false"></td>
+                  <td class="c-unit"><input id="eUnit" data-col="2" placeholder="ĐVT" aria-label="Đơn vị tính" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next"></td>
+                  <td class="c-qty"><input id="eQty" data-col="3" inputmode="decimal" placeholder="0" aria-label="Số lượng" autocomplete="off" enterkeyhint="next"></td>
+                  <td class="money c-price"><input id="ePrice" data-col="4" inputmode="numeric" placeholder="0" aria-label="Đơn giá" autocomplete="off" enterkeyhint="done"></td>
+                  <td class="num amount" id="eAmount">–</td>
+                  <td class="c-act"><div class="entry-acts">
+                    <button class="icon-btn add" id="eAdd" tabindex="-1" title="Thêm dòng (Enter)" aria-label="Thêm dòng">
+                      <svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></svg></button>
+                    <button class="icon-btn" id="eHide" tabindex="-1" title="Bỏ hàng nhập này cho bảng gọn (Enter ở dòng cuối để hiện lại)" aria-label="Bỏ hàng nhập">
+                      <svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg></button>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="paper-foot">
+            <p class="hint">Giá gõ tắt: <kbd>95k</kbd> = 95.000, <kbd>3tr</kbd> = 3.000.000</p>
+            <dl class="totals">
+              <div><dt>Tổng cộng</dt><dd id="sumLines">0</dd></div>
+              <div><dt><label for="debt">Nợ cũ</label></dt><dd><input id="debt" inputmode="numeric" placeholder="0"></dd></div>
+              <div class="grand"><dt>Tổng tiền</dt><dd id="grandTotal">0</dd></div>
+            </dl>
+          </div>
+        </article>
+      </section>
+    </div>
+    <ul class="suggest" id="suggest" role="listbox" hidden></ul>
+    <ul class="suggest customers" id="customerSuggest" role="listbox" hidden></ul>
+  </main>
+
+  <!-- ===================== BẢNG GIÁ ===================== -->
+  <main class="view" id="view-products" hidden>
+    <section class="page-head">
+      <div>
+        <h2>Bảng giá vật liệu</h2>
+        <p class="muted" id="productCount"></p>
+      </div>
+      <div class="head-actions">
+        <div class="search-box">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M9 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM13.5 13.5 17 17"/></svg>
+          <input class="search" id="productSearch" type="search" placeholder="Tìm mặt hàng…">
+        </div>
+        <button class="btn ghost" type="button" id="btnImportPrices" title="Đọc giá từ các phiếu Mau Phieu Thu A5 cũ (trên Drive hoặc trên máy)">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15V6m0 0L6.5 9.5M10 6l3.5 3.5M4 3h12" /></svg>
+          Nhập giá từ phiếu cũ
+        </button>
+      </div>
+    </section>
+    <form class="card add-row" id="addProductForm" autocomplete="off">
+      <input name="name" placeholder="Tên hàng (vd: xi măng Hà Tiên)" required>
+      <input name="unit" placeholder="ĐVT (bao, cây, kg…)">
+      <input name="price" inputmode="numeric" placeholder="Đơn giá">
+      <button class="btn primary" type="submit">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+        Thêm mặt hàng
+      </button>
+    </form>
+    <div class="card table-card">
+      <table class="grid">
+        <thead id="productHead"><tr>
+          <th data-sort="name"><button type="button" class="sort-btn">Tên hàng<i aria-hidden="true"></i></button></th>
+          <th class="w-unit" data-sort="unit"><button type="button" class="sort-btn">ĐVT<i aria-hidden="true"></i></button></th>
+          <th class="num w-price" data-sort="price"><button type="button" class="sort-btn">Đơn giá<i aria-hidden="true"></i></button></th>
+          <th data-sort="updated"><button type="button" class="sort-btn">Cập nhật<i aria-hidden="true"></i></button></th>
+          <th></th>
+        </tr></thead>
+        <tbody id="productRows"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- ===================== KHÁCH HÀNG ===================== -->
+  <main class="view" id="view-customers" hidden>
+    <section class="page-head">
+      <div>
+        <h2>Khách hàng</h2>
+        <p class="muted" id="customerTotal"></p>
+      </div>
+      <div class="head-actions">
+        <div class="search-box">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M9 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12zM13.5 13.5 17 17"/></svg>
+          <input class="search" id="customerSearch" type="search" placeholder="Tìm khách…">
+        </div>
+      </div>
+    </section>
+    <div class="card table-card">
+      <table class="grid">
+        <thead><tr><th>Tên khách hàng</th><th>Số điện thoại</th><th>Địa chỉ</th><th></th></tr></thead>
+        <tbody id="customerRows"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <dialog class="modal files-modal import-modal" id="importDialog">
+    <div class="modal-head">
+      <div>
+        <h3>Nhập giá từ phiếu cũ</h3>
+        <p class="muted" id="importSub">Chọn phiếu để đọc giá. Chưa lưu gì cho tới khi bạn bấm Lưu.</p>
+      </div>
+      <button class="icon-btn" type="button" id="importClose" aria-label="Đóng">
+        <svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+
+    <div class="import-source" id="importSource">
+      <section class="source-card">
+        <div class="source-title">
+          <h4>Từ Google Drive</h4>
+        </div>
+        <div class="year-chips compact" id="importYear" role="tablist" aria-label="Năm"></div>
+        <div class="import-tree" id="importMonths"></div>
+        <div class="source-actions">
+          <button class="link-btn" type="button" id="importPickAll">Chọn cả năm</button>
+          <span class="muted pick-info" id="importPickInfo"></span>
+          <button class="btn primary" type="button" id="importReadDrive">Đọc giá</button>
+        </div>
+      </section>
+      <section class="source-card">
+        <div class="source-title"><h4>Từ file trên máy</h4></div>
+        <p class="muted">Chọn một hoặc nhiều file <i>Mau Phieu Thu A5 ….xlsx</i> đã tải về.</p>
+        <div class="source-actions">
+          <label class="btn ghost">
+            Chọn file…
+            <input type="file" id="importFiles" accept=".xlsx" multiple hidden>
+          </label>
+        </div>
+      </section>
+    </div>
+
+    <div class="files-empty" id="importProgress" hidden></div>
+
+    <div class="import-review" id="importReview" hidden>
+      <div class="review-bar">
+        <span id="importSummary"></span>
+        <label class="check"><input type="checkbox" id="importShowSame"> Hiện cả hàng giá không đổi</label>
+      </div>
+      <div class="review-scroll">
+        <table class="grid review">
+          <thead><tr>
+            <th class="w-check"><input type="checkbox" id="importCheckAll" aria-label="Chọn tất cả"></th>
+            <th>Tên hàng</th><th class="w-unit">ĐVT</th><th class="num w-price">Giá trong phiếu</th><th class="num w-price">Giá hiện tại</th><th>Ghi chú</th>
+          </tr></thead>
+          <tbody id="importRows"></tbody>
+        </table>
+      </div>
+      <div class="review-actions">
+        <button class="btn ghost" type="button" id="importBack">Quay lại</button>
+        <button class="btn primary" type="button" id="importSave">Lưu</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal files-modal account-modal" id="accountDialog">
+    <div class="modal-head">
+      <div>
+        <h3>Tài khoản <span id="accountUser"></span></h3>
+        <p class="muted">Thấy máy lạ: đăng xuất máy đó rồi đổi mật khẩu.</p>
+      </div>
+      <button class="icon-btn" type="button" id="accountClose" aria-label="Đóng">
+        <svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <div class="account-body">
+      <div class="account-sec-head">
+        <h4>Đang đăng nhập <span class="count" id="deviceCount"></span></h4>
+        <button class="link-btn danger-link" type="button" id="revokeOthers">Đăng xuất máy khác</button>
+      </div>
+      <ul class="devices" id="deviceList"></ul>
+      <div class="account-sec-head">
+        <h4>Lịch sử đăng nhập</h4>
+        <span class="muted" id="historyNote"></span>
+      </div>
+      <ul class="login-history" id="loginHistory"></ul>
+    </div>
+    <div class="review-actions">
+      <span class="muted account-tip">Đổi mật khẩu: <code>npm run set-password</code></span>
+      <button class="btn danger" type="button" id="btnLogout">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 3.5H4.5v13H8M13 6.5l3.5 3.5-3.5 3.5M16.5 10H8"/></svg>
+        Đăng xuất máy này
+      </button>
+    </div>
+  </dialog>
+
+  <dialog class="modal files-modal copy-modal" id="copyDialog">
+    <form method="dialog" id="copyForm" autocomplete="off">
+      <div class="modal-head">
+        <div>
+          <h3>Sao chép sheet</h3>
+          <p class="muted" id="copySub"></p>
+        </div>
+        <button class="icon-btn" type="button" id="copyClose" aria-label="Đóng">
+          <svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg>
+        </button>
+      </div>
+      <div class="copy-body">
+        <div class="copy-where" role="radiogroup" aria-label="Sao chép tới">
+          <label class="pick-card"><input type="radio" name="where" value="same" checked><b>Khách khác</b></label>
+          <label class="pick-card"><input type="radio" name="where" value="other"><b>Ngày khác</b></label>
+        </div>
+        <label class="copy-field" id="copyDateField" hidden>
+          <span>Ngày phiếu</span>
+          <button class="date-input" type="button" id="copyDate" aria-haspopup="dialog"><span id="copyDateText"></span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 5.5h13v11h-13zM3.5 8.5h13M7 3.5v3M13 3.5v3"/></svg></button>
+        </label>
+        <label class="copy-field">
+          <span>Sang khách</span>
+          <input id="copyName" list="copyNames" placeholder="Tên khách">
+          <datalist id="copyNames"></datalist>
+        </label>
+        <label class="check"><input type="checkbox" id="copyKeepDates" checked> Giữ ngày bán</label>
+        <p class="error-text" id="copyError" hidden></p>
+      </div>
+      <div class="review-actions">
+        <button class="btn ghost" type="button" id="copyCancel">Huỷ</button>
+        <button class="btn primary" type="submit" id="copyGo">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6.5" y="6.5" width="10" height="10" rx="2"/><path d="M13.5 6.5v-2a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 5v7A1.5 1.5 0 0 0 5 13.5h1.5"/></svg>
+          Sao chép
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal files-modal print-modal" id="printDialog">
+    <div class="modal-head">
+      <div>
+        <h3>Chọn khách để in</h3>
+        <p class="muted" id="printSub"></p>
+      </div>
+      <button class="icon-btn" type="button" id="printClose" aria-label="Đóng">
+        <svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <div class="review-bar">
+      <label class="check"><input type="checkbox" id="printCheckAll"> Chọn tất cả</label>
+      <span class="muted" id="printPicked"></span>
+    </div>
+    <ul class="print-list" id="printList"></ul>
+    <div class="review-bar print-extra">
+      <label class="check"><input type="checkbox" id="printWithSummary"> In kèm phiếu tổng kết tiền</label>
+    </div>
+    <div class="review-actions">
+      <button class="btn ghost" type="button" id="printCancel">Huỷ</button>
+      <button class="btn primary" type="button" id="printGo">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 7.5V2.5h9v5M5.5 14.5h-2v-7h13v7h-2M5.5 11.5h9v6h-9z"/></svg>
+        In
+      </button>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="driveSetup">
+    <form method="dialog">
+      <h3>Kết nối Google Drive</h3>
+      <p>App cần một <b>OAuth Client</b> của Google (làm 1 lần, miễn phí):</p>
+      <ol>
+        <li>Vào <a href="https://console.cloud.google.com/apis/library/drive.googleapis.com" target="_blank" rel="noopener">Google Cloud Console</a>, tạo project và bật <b>Google Drive API</b>.</li>
+        <li><b>OAuth consent screen</b>: chọn External, thêm email của bạn vào <i>Test users</i>.</li>
+        <li><b>Credentials → Create OAuth client ID</b> → loại <i>Web application</i>, thêm Authorized redirect URI:<br><code id="redirectUri"></code></li>
+        <li>Chép Client ID và Client secret vào file <code>.env</code> (xem <code>.env.example</code>), rồi khởi động lại app.</li>
+      </ol>
+      <div class="modal-actions"><button class="btn primary">Đã hiểu</button></div>
+    </form>
+  </dialog>
+
+  <div class="fab-wrap" id="fabWrap" hidden>
+    <button class="fab-mini" id="fabTop" type="button" aria-label="Lên đầu phiếu" title="Lên đầu phiếu">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 12l5-5 5 5"/></svg>
+    </button>
+    <button class="fab" id="fabAdd" type="button">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+      Thêm hàng
+    </button>
+  </div>
+
+  <dialog class="modal pdf-modal" id="pdfDialog">
+    <div class="pdf-ready">
+      <span class="pdf-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 2.5h8.5L19 7v13.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-17a1 1 0 0 1 1-1z"/><path d="M14 2.5V7h5M8.5 13h7M8.5 16.5h7M8.5 9.5h3"/></svg></span>
+      <h3>Phiếu A5 đã sẵn sàng</h3>
+      <p class="muted" id="pdfInfo"></p>
+      <button class="btn primary" type="button" id="pdfShare">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 7.5V2.5h9v5M5.5 14.5h-2v-7h13v7h-2M5.5 11.5h9v6h-9z"/></svg>
+        In phiếu
+      </button>
+      <button class="btn ghost" type="button" id="pdfOpen">Mở PDF</button>
+      <button class="link-btn" type="button" id="pdfClose">Đóng</button>
+      <p class="pdf-tip muted">Khi in, chọn khổ giấy <b>A5</b> nếu máy in hỏi.</p>
+    </div>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <!-- Bản in: dựng lại bố cục sheet "Mau Phieu Thu A5" (xem server/excel.js), chỉ hiện khi in -->
+  <div id="printArea"></div>
+  <script src="config.js?v=202611210755-06129a1"></script>
+  <script type="module" src="app.js?v=202611210755-06129a1"></script>
+</body>
+</html>

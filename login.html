@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://vlxd.103-116-52-58.sslip.io; connect-src 'self' https://vlxd.103-116-52-58.sslip.io; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="vlxd-build" content="202611210755-06129a1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Đăng nhập · VLXD Thanh Duy</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="icons/logo.svg">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#07110c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VLXD">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css?v=202611210755-06129a1">
+</head>
+<body>
+  <main class="wrap">
+    <form class="card" id="loginForm" autocomplete="on" novalidate>
+      <img class="logo" src="icons/logo.svg" alt="">
+      <p class="eyebrow">Vật liệu xây dựng</p>
+      <h1>THANH DUY</h1>
+      <p class="sub">Đăng nhập để quản lý phiếu bán hàng</p>
+
+      <label class="field">
+        <span>Tên đăng nhập</span>
+        <input id="username" name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required autofocus>
+      </label>
+      <label class="field">
+        <span>Mật khẩu</span>
+        <span class="pass">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button type="button" class="eye" id="togglePass" aria-label="Hiện mật khẩu" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </span>
+      </label>
+
+      <label class="remember">
+        <input type="checkbox" id="remember" name="remember">
+        <span class="box" aria-hidden="true"></span>
+        <span>Duy trì đăng nhập <small>30 ngày trên máy này</small></span>
+      </label>
+
+      <p class="error" id="error" role="alert" hidden></p>
+      <button class="submit" id="submit" type="submit">Đăng nhập</button>
+    </form>
+    <p class="foot">Chỉ dành cho cửa hàng VLXD Thanh Duy</p>
+  </main>
+  <script src="config.js?v=202611210755-06129a1"></script>
+  <script src="login.js?v=202611210755-06129a1"></script>
+</body>
+</html>
